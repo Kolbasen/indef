@@ -1,0 +1,20 @@
+{
+  "name": "indef",
+  "version": "0.1.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "lint": "eslint --fix \"**/*.{js,jsx}\""
+  },
+  "devDependencies": {
+    "electron-rebuild": "^1.8.8",
+    "eslint": "5.16.0",
+    "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-plugin-import": "^2.18.2"
+  },
+  "dependencies": {
+    "@serialport/parser-readline": "^8.0.4",
+    "electron": "^7.1.5",
+    "serialport": "^8.0.5"
+  }
+}
