@@ -1,5 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
-const listenData = require('./services/joystick.service')
+const listenData = require('./services/joystick.service');
 
 let win;
 

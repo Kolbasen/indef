@@ -1,24 +1,39 @@
-const { ipcRenderer } = require('electron')
+const Engine = require('./engine');
+const Game = require('./game');
+const Display = require('./display');
+const Controller = require('./controller')
 
-const draw = () => {
-  const canvas = document.getElementById('tutorial');
-  console.log(canvas)
-  if (canvas.getContext) {
-    console.log('canvas')
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = 'rgb(200, 0, 0)';
-    ctx.fillRect(10, 10, 50, 50);
-    ctx.fillStyle = 'rgba(0, 0, 200, 0.5)';
-    ctx.fillRect(30, 30, 50, 50);
+window.addEventListener('load', (e) => {
+
+  const render = () => {
+    display.fill(game.world.background_color)
+    display.drawRectangle(game.player.x, game.player.y, 50, 50, game.color)
+    display.render();
+  };
+
+  const update = () => {
+    if (controller.movingLeft) game.player.moveLeft();
+    if (controller.movingRight) game.player.moveRight();
+    if (controller.jumping) game.player.jump();
+    game.update();
+  };
+
+  const move = (dx, dy) => {
+    player.move(dx, dy)
   }
-};
+  
 
-ipcRenderer.on('X', (event, message) => {
-  console.log(`X: ${message}`)
-})
+  const controller = new Controller(move)
 
-ipcRenderer.on('Y', (event, message) => {
-  console.log(`Y: ${message}`)
-})
+  const game = new Game();
 
-draw()
+  const display = new Display(document.querySelector('canvas'));
+
+  const engine = new Engine(1000 / 60, render, update);
+
+  display.buffer.canvas.height = game.world.height;
+  display.buffer.canvas.width = game.world.width;
+
+  controller.updateInput()
+  engine.start();
+});
