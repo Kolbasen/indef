@@ -4,7 +4,7 @@ class Controller {
   constructor() {
     this.movingRight = false;
     this.movingLeft = false;
-    this.jumping = false;
+    this.startJump = false;
   }
 
   updateInput() {
@@ -22,9 +22,9 @@ class Controller {
     })
     ipcRenderer.on('Y', (event, arg) => {
       if (arg > 1000) {
-        this.jumping = true
+        this.startJump = true
       } else {
-        this.jumping = false        
+        this.startJump = false        
       }
     })
   }

@@ -1,0 +1,9 @@
+class Platform {
+  constructor() {
+
+  }
+  
+  draw() {
+    
+  }
+}

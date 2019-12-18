@@ -1,8 +1,31 @@
 
+
 class Display  {
   constructor(canvas) {
     this.buffer  = document.createElement("canvas").getContext("2d"),
     this.context = canvas.getContext("2d");
+    this.image = new Image();
+    this.backgroundImage = new Image()
+    this.tileSize = 32  ;       // The size of a tile (32×32)
+    this.rowTileCount = 18;   // The number of tiles in a row of our background
+    this.colTileCount = 24;   // The number of tiles in a column of our background
+    this.imageNumTiles = 4;  // The number of tiles per row in the tileset image
+  }
+
+  
+  drawBackground() {
+    this.buffer.drawImage(this.backgroundImage, 0, 0, this.buffer.canvas.width, this.buffer.canvas.height)
+  }
+
+  drawMap(map) {
+    for (let r = 0; r < this.rowTileCount; r++) {
+      for (let c = 0; c < this.colTileCount; c++) {
+         let tile = map[ r ][ c ];
+         let tileRow = (tile / this.imageNumTiles) | 0; // Bitwise OR operation
+         let tileCol = (tile % this.imageNumTiles) | 0;
+         this.buffer.drawImage(this.image, (tileCol * this.tileSize), (tileRow * this.tileSize), this.tileSize, this.tileSize, (c * this.tileSize), (r * this.tileSize), this.tileSize, this.tileSize);
+      }
+   }
   }
 
 
@@ -30,19 +53,23 @@ class Display  {
       ); 
   };
 
-  resize = function(event) {
+  resize(width, height, height_width_ratio) {
 
-    const height = document.documentElement.clientHeight;
-    const width  = document.documentElement.clientWidth;
+    if (height / width > height_width_ratio) {
 
-    this.context.canvas.height = height - 32;
-    this.context.canvas.width = width - 32;
+      this.context.canvas.height = width * height_width_ratio;
+      this.context.canvas.width = width;
 
-    this.render();
+    } else {
+
+      this.context.canvas.height = height;
+      this.context.canvas.width = height / height_width_ratio;
+
+    }
+
+    this.context.imageSmoothingEnabled = false;
 
   };
-
-  handleResize = (event) => { this.resize(event); };
 
 }
 

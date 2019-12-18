@@ -1,17 +1,24 @@
 class Character { 
   constructor(x, y) {
+    this.width = 16;
+    this.height = 16;
     this.x = x;
     this.y = y;
+    this.velocity_x = 0;
+    this.velocity_y = 0;
   }
 
   moveLeft() {
-    console.log('left')
-    this.x -=5;
+    this.velocity_x -=0.5;
   }
 
   moveRight() {
-    console.log('right')
-    this.x += 5;
+    this.velocity_x += 0.5;
+  }
+
+  updatePosition() {
+    this.x += this.velocity_x;
+    this.y += this.velocity_y
   }
 
   getPosition() {
